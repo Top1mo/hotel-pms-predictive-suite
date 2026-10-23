@@ -1,0 +1,18 @@
+project:
+  random_seed: 42
+  test_size: 0.20
+  val_size: 0.20
+
+data:
+  url: "https://raw.githubusercontent.com/afaq-ahmad/Hotel-booking-demand-Case-Study/master/H2.csv"
+  raw_path: "data/raw/H2.csv"
+  expected_rows: 79330
+  expected_cols: 31
+
+features:
+  regression_target: "ADR"
+  classification_target: "IsCanceled"
+  leakage_drop:
+    - "ReservationStatus"
+    - "ReservationStatusDate"
+    - "AssignedRoomType"

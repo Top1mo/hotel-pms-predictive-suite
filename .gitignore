@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+data/raw/*.csv
+data/processed/*
+artifacts/*.pkl
+artifacts/*.joblib
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!artifacts/.gitkeep
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+.ipynb_checkpoints/
+.vscode/
+.idea/

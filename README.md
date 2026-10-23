@@ -12,3 +12,8 @@ source .venv/bin/activate.fish # Fish
 pip install -r requirements.txt
 python src/data/download.py
 \`\`\`
+
+
+## Helllllllllllllo 
+## welcome to our fuck project
+

@@ -5,6 +5,8 @@ __pycache__/
 venv/
 data/raw/*.csv
 data/processed/*
+data/cleaned/*.csv
+!data/cleaned/.gitkeep
 artifacts/*.pkl
 artifacts/*.joblib
 !data/raw/.gitkeep

@@ -2,6 +2,18 @@
 
 Guide for the team to get the repo running and start contributing.
 
+## Team Members
+
+Fill in your details here so contributions can be tracked:
+
+| Name | Student ID | GitHub | 
+| :--- | :--- | :--- | :--- |
+| Mostafa |24p0353 | @Top1mo | 
+|  | | |
+|  | | |  
+| | | | 
+|  | | |  
+
 ## Quick Setup
 
 ```bash
@@ -15,12 +27,14 @@ python -m venv .venv
 source .venv/bin/activate        # Bash/Zsh (Linux/macOS)
 source .venv/bin/activate.fish   # Fish
 .venv\Scripts\activate           # Windows (cmd/PowerShell)
-# aw momkn setup manually from vscode easier
+
 pip install -r requirements.txt
 python src/data/download.py
 ```
 
-If the last step prints `Verified H2.csv: ... rows, ... columns.`, you're set.
+If the last step prints `Verified H2.csv: ... rows, ... columns.`, the raw dataset is ready.
+
+To generate the cleaned dataset (`data/cleaned/H2_cleaned.csv`), open and run `data/cleaned/Data_cleaning.ipynb`.
 
 ## About the data
 
@@ -29,7 +43,7 @@ downloads `H2.csv` into the path set in `config.yaml` and checks the shape
 against `expected_rows` / `expected_cols`. If the check fails, the file is
 corrupted or wrong: delete it and run the script again.
 
-**Never commit the CSV.** Everyone downloads their own copy.
+**Never commit CSV files.** Everyone downloads and generates their own copy.
 
 ## Config
 
@@ -38,8 +52,29 @@ your code, read them from the config.
 
 ## Project structure
 
-```
-<fill in: paste the output of `tree -L 2 -I .venv`>
+```text
+hotel-pms-predictive-suite/
+├── README.md
+├── Report.md
+├── requirements.txt
+├── config.yaml
+├── main.py
+├── app.py
+├── data/
+│   ├── raw/
+│   └── cleaned/
+├── src/
+│   ├── data/
+│   ├── preprocessing/
+│   ├── features/
+│   ├── regression/
+│   ├── classification/
+│   ├── clustering/
+│   ├── tuning/
+│   ├── evaluation/
+│   └── inference/
+├── artifacts/
+└── outputs/
 ```
 
 ## Workflow

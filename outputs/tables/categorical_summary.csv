@@ -1,0 +1,14 @@
+,n_unique,top_value,top_share_pct
+ArrivalDateMonth,12,August,11.3
+Meal,4,BB,78.5
+Country,166,PRT,39.0
+MarketSegment,8,Online TA,48.8
+DistributionChannel,5,TA/TO,86.9
+ReservedRoomType,8,A,78.9
+AssignedRoomType,9,A,71.9
+DepositType,3,No Deposit,83.8
+Agent,223,9,44.9
+Company,207,40,25.0
+CustomerType,4,Transient,74.9
+ReservationStatus,3,Check-Out,58.3
+ReservationStatusDate,864,2015-10-21,1.8

@@ -14,3 +14,7 @@ artifacts/*.joblib
 .ipynb_checkpoints/
 .vscode/
 .idea/
+
+# Generated preparation and training-only EDA outputs
+data/splits/
+outputs/eda_training/

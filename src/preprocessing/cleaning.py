@@ -1,48 +1,40 @@
+"""Deterministic cleaning; statistical imputation is fitted in training pipelines."""
 import pandas as pd
+from src.data.loader import CATEGORICAL_COLUMNS
 
-def clean_dataset(df):
-    """
-    Sanitizes the raw H2 dataset by removing duplicates, handling extreme outliers, 
-    and imputing missing values.
-    
-    Args:
-        df (pd.DataFrame): Raw dataframe loaded directly from H2.csv.
-        
-    Returns:
-        pd.DataFrame: Cleaned dataframe ready for feature engineering.
-    """
+
+def normalize_categories(df):
     df = df.copy()
-
-    # 1. Deduplication
-    # Removes exact duplicate rows inherent to group bookings in the PMS
-    df = df.drop_duplicates().reset_index(drop=True)
-
-    # 2. Outlier Removal
-    # Drops the single massive ADR anomaly (5400) to prevent regression distortion
-    if 'ADR' in df.columns:
-        df = df[df['ADR'] < 1000]
-
-    # 3. Standard Missing Value Imputation
-    if 'Children' in df.columns:
-        df['Children'] = df['Children'].fillna(0)
-        
-    if 'Country' in df.columns:
-        df['Country'] = df['Country'].fillna('PRT')
-
-    # 4. Hidden Missing Value Imputation ('NULL' strings)
-    if 'Agent' in df.columns:
-        df['Agent'] = df['Agent'].astype(str).str.strip()
-        df['Agent'] = df['Agent'].replace('NULL', 'No_Agent')
-        
-    if 'Company' in df.columns:
-        # Standardize the string; the actual flag conversion happens in build_features.py
-        df['Company'] = df['Company'].astype(str).str.strip()
-
+    for column in CATEGORICAL_COLUMNS:
+        if column in df:
+            df[column] = df[column].astype('string').str.strip().replace(
+                {'NULL': pd.NA, '': pd.NA, 'Undefined': pd.NA})
     return df
 
-if __name__ == "__main__":
-    # Example usage for testing the module independently
-    # raw_data = pd.read_csv('../../data/H2.csv')
-    # clean_data = clean_dataset(raw_data)
-    # print(clean_data.isnull().sum())
-    pass
+
+def eligible_rows(df):
+    # Unknown child count is not proof that all guest counts are zero.
+    zero_guests = df[['Adults', 'Children', 'Babies']].eq(0).fillna(False).all(axis=1)
+    return df.loc[~zero_guests].copy()
+
+
+def clean_dataset(df):
+    df = eligible_rows(normalize_categories(df))
+    # Full-row duplicates only; distinct outcomes must not be discarded.
+    # Preserve the first original row ID for the split audit manifest.
+    return df.drop_duplicates(keep='first').copy()
+
+
+def cleaning_report(raw, clean):
+    normalized = normalize_categories(raw)
+    eligible = eligible_rows(normalized)
+    return {
+        'input_rows': len(raw),
+        'removed_known_zero_guest_rows': len(normalized) - len(eligible),
+        'removed_exact_duplicate_rows': int(eligible.duplicated().sum()),
+        'retained_rows': len(clean),
+        'exact_duplicates_remaining': int(clean.duplicated().sum()),
+        'policy': 'Normalize categories; remove known zero-guest rows; remove exact full-row '
+                  'duplicates before splitting. Retain ADR extremes and missing values. '
+                  'Group identical booking inputs across splits even when outcomes differ.'
+    }

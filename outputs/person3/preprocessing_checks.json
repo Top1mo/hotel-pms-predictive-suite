@@ -1,0 +1,35 @@
+{
+  "regression": {
+    "training_shape": [
+      31921,
+      152
+    ],
+    "validation_shape": [
+      10650,
+      152
+    ],
+    "sparse": true
+  },
+  "classification": {
+    "training_shape": [
+      31921,
+      152
+    ],
+    "validation_shape": [
+      10650,
+      152
+    ],
+    "sparse": true
+  },
+  "clustering": {
+    "training_shape": [
+      31921,
+      30
+    ],
+    "validation_shape": [
+      10650,
+      30
+    ],
+    "sparse": true
+  }
+}

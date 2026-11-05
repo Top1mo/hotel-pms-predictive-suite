@@ -25,8 +25,8 @@
   },
   "training_cancel_rate": 0.2997713104226058,
   "versions": {
-    "python": "3.12.14",
-    "pandas": "3.0.1",
+    "python": "3.14.7",
+    "pandas": "3.1.0",
     "sklearn": "1.9.1"
   }
 }

@@ -18,3 +18,9 @@ artifacts/*.joblib
 # Generated preparation and training-only EDA outputs
 data/splits/
 outputs/eda_training/
+
+# Ignore dataset CSV files
+data/raw/*.csv
+data/cleaned/*.csv
+data/processed/*.csv
+data/splits/

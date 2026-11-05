@@ -1,0 +1,7 @@
+model,config,k,param_name,param,silhouette,davies_bouldin,smallest_cluster
+KMeans,baseline,3,init,k-means++,0.1486,1.9769,0.0603
+KMeans,tuned,2,init,random,0.5401,0.8048,0.0303
+Agglomerative,baseline,3,linkage,ward,0.1468,2.0831,0.057
+Agglomerative,tuned,2,linkage,ward,0.4858,1.2441,0.057
+GMM,baseline,3,covariance_type,full,0.1088,3.7716,0.0761
+GMM,tuned,2,covariance_type,full,0.3507,2.0692,0.1006

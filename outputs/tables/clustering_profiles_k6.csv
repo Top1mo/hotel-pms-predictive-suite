@@ -1,0 +1,7 @@
+cluster,size,lead_time,weekend_nights,week_nights,adults,children,repeated_guest,has_company,top_segment,top_customer,adr_after,cancel_rate_after
+0,8404,197.76,1.13,3.01,1.93,0.07,0.0,0.0,Online TA,Transient,105.57,0.41
+1,11478,37.37,0.8,2.09,1.76,0.03,0.0,0.0,Online TA,Transient,102.0,0.24
+2,13951,51.09,0.82,2.09,1.79,0.01,0.0,0.0,Online TA,Transient,107.69,0.29
+3,6169,72.31,0.92,2.34,2.5,0.72,0.0,0.0,Online TA,Transient,159.85,0.35
+4,1278,33.7,0.55,1.7,1.26,0.02,0.0,1.0,Corporate,Transient,85.28,0.15
+5,1291,12.3,0.4,1.27,1.27,0.03,1.0,0.68,Corporate,Transient,65.84,0.11

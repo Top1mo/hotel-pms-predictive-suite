@@ -1,0 +1,124 @@
+{
+  "task": "hotel booking cancellation prediction",
+  "positive_class": {
+    "label": 1,
+    "meaning": "canceled"
+  },
+  "decision_threshold": 0.5,
+  "cross_validation": {
+    "strategy": "5-fold GroupKFold on training partition",
+    "n_splits": 5,
+    "training_rows": 31921,
+    "training_groups": 30123,
+    "metrics": {
+      "accuracy": {
+        "fold_scores": [
+          0.7331245105716523,
+          0.7326127819548872,
+          0.7349624060150376,
+          0.7360588972431078,
+          0.7424812030075187
+        ],
+        "mean": 0.7358479597584408,
+        "std": 0.00395955069894161
+      },
+      "precision": {
+        "fold_scores": [
+          0.5854700854700855,
+          0.6023489932885906,
+          0.5976027397260274,
+          0.6029035012809565,
+          0.5977312390924956
+        ],
+        "mean": 0.5972113117716311,
+        "std": 0.0070192009535692814
+      },
+      "recall": {
+        "fold_scores": [
+          0.3597689075630252,
+          0.36801640184520756,
+          0.36354166666666665,
+          0.36656282450674976,
+          0.36670235546038543
+        ],
+        "mean": 0.36491843120840695,
+        "std": 0.0033127372179456663
+      },
+      "f1": {
+        "fold_scores": [
+          0.44567338972023424,
+          0.45688832325803375,
+          0.4520725388601036,
+          0.45592508879560867,
+          0.45454545454545453
+        ],
+        "mean": 0.45302095903588696,
+        "std": 0.004488898470807964
+      },
+      "roc_auc": {
+        "fold_scores": [
+          0.7798695800569725,
+          0.778011542201949,
+          0.7834315146169355,
+          0.789779723245969,
+          0.7805489475441115
+        ],
+        "mean": 0.7823282615331876,
+        "std": 0.004598548349254919
+      },
+      "pr_auc": {
+        "fold_scores": [
+          0.576950355732267,
+          0.5816759521129033,
+          0.5710237176109481,
+          0.5832854219335708,
+          0.5684402712081555
+        ],
+        "mean": 0.5762751437195689,
+        "std": 0.0064755568611069795
+      }
+    }
+  },
+  "final_fit": {
+    "rows": 42571,
+    "partitions": [
+      "train",
+      "validation"
+    ],
+    "estimator": "LogisticRegression",
+    "max_iter": 1000
+  },
+  "final_test": {
+    "rows": 10703,
+    "metrics": {
+      "accuracy": 0.723161730355975,
+      "precision": 0.5881126173096975,
+      "recall": 0.3417146319297183,
+      "f1": 0.43226671776202336,
+      "roc_auc": 0.7743368646691606,
+      "pr_auc": 0.5670065393850681,
+      "confusion_matrix": [
+        [
+          6612,
+          790
+        ],
+        [
+          2173,
+          1128
+        ]
+      ],
+      "confusion_matrix_labels": [
+        "not_canceled",
+        "canceled"
+      ]
+    }
+  },
+  "metric_notes": {
+    "precision": "Of bookings predicted canceled, the fraction actually canceled.",
+    "recall": "Of bookings actually canceled, the fraction detected.",
+    "f1": "Harmonic mean of precision and recall at the 0.5 decision threshold.",
+    "roc_auc": "Threshold-independent area under the ROC curve.",
+    "pr_auc": "Average precision, the area-under-precision-recall summary; useful when classes are imbalanced.",
+    "confusion_matrix": "Rows are actual [not_canceled, canceled]; columns are predicted [not_canceled, canceled]."
+  }
+}

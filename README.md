@@ -137,3 +137,18 @@ results = cross_validate(model, X, y, cv=cv, groups=groups,
 ```
 
 For regression use task `regression` and a regressor; for clustering use `clustering` and a clustering estimator (`y` is None). These are usage examples, not completed experiments. Do not prefit preprocessing before cross-validation. Tree models can use `scale=False`. Outputs are sparse; an estimator requiring dense arrays needs a deliberate adapter.
+
+## Cancellation classification
+
+Prepare the grouped partitions, then train and evaluate the logistic-regression classifier:
+
+```bash
+python main.py prepare
+python -m src.classification.train
+```
+
+The model predicts `IsCanceled` (`1` means canceled) using the existing training-only preprocessing pipeline. Five-fold `GroupKFold` cross-validation is reported on the training partition. The final model is fitted on train plus validation, then evaluated once on the held-out test partition. The test set is not used for preprocessing, cross-validation, or model selection.
+
+Metrics and the final-test confusion matrix are saved in `outputs/classification/metrics.json` and `outputs/classification/confusion_matrix.csv`; the fitted pipeline is saved as `outputs/classification/logistic_regression.joblib`.
+
+Metric guide: **accuracy** is the fraction of all predictions correct; **precision** is the fraction of predicted cancellations that were cancellations; **recall** is the fraction of cancellations detected; **F1** balances precision and recall; the **confusion matrix** counts actual versus predicted classes; **ROC-AUC** summarizes ranking across classification thresholds; **PR-AUC** is reported as average precision and emphasizes performance on the cancellation class. Cross-validation reports each fold's score and the mean and standard deviation; final-test metrics estimate performance on unseen bookings.

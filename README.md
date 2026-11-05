@@ -34,16 +34,16 @@ python src/data/download.py
 
 If the last step prints `Verified H2.csv: ... rows, ... columns.`, the raw dataset is ready.
 
-To generate the cleaned dataset (`data/cleaned/H2_cleaned.csv`), open and run `data/cleaned/Data_cleaning.ipynb`.
+To generate the cleaned dataset (`data/cleaned/H2_cleaned.csv`), open and run `src/data/Data_cleaning.ipynb`.
 
 ## About the data
 
-The dataset is **not committed** (it's in `.gitignore`). `src/data/download.py`
+This snapshot contains raw and historical prepared CSV files. `src/data/download.py`
 downloads `H2.csv` into the path set in `config.yaml` and checks the shape
 against `expected_rows` / `expected_cols`. If the check fails, the file is
 corrupted or wrong: delete it and run the script again.
 
-**Never commit CSV files.** Everyone downloads and generates their own copy.
+Generated splits are ignored by Git. Keep the raw source unchanged; regenerate preparation outputs using the commands below.
 
 ## Config
 
@@ -101,3 +101,39 @@ so everyone's environment stays in sync.
 
 - **Repository URL:** `https://github.com/Top1mo/hotel-pms-predictive-suite/tree/dev`
 - **Submitted Commit SHA:** `<INSERT_SHA_BEFORE_ZIP>`
+
+
+## Reproducible preparation and model handoff
+
+The authoritative modeling flow starts from raw H2, normalizes missing markers, removes known zero-guest rows and exact full-row duplicates, then creates grouped train/validation/test splits. Historical cleaned/processed CSVs and the cleaning notebook are not inputs to this flow.
+
+```bash
+python -m pip install -r requirements-person3-tested.txt
+python main.py prepare
+python main.py check-preprocessing
+python main.py analyze
+python -m pytest -q
+```
+
+The tested environment is Python 3.12; `requirements-person3.txt` provides broader version ranges. The original requirements file includes dependencies for later milestones.
+
+Splits and original row IDs are written to `data/splits`. Fractions 60/20/20 apply to groups, so row counts are approximate. Final test data is reserved for final supervised evaluation. Training-only EDA is generated in `outputs/eda_training`; old full-dataset figures must not be mixed with those results. Preparation metadata and checks are in `outputs/person3`.
+
+Model owners should load a partition, select task data, and attach their estimator to the full preprocessing pipeline:
+
+```python
+from src.data.prepare import load_partition
+from src.data.splits import training_cv
+from src.preprocessing.pipelines import task_data, make_model_pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate
+
+train = load_partition('train')
+X, y = task_data(train, 'classification')
+model = make_model_pipeline('classification', LogisticRegression(max_iter=1000))
+cv, groups = training_cv(train)
+results = cross_validate(model, X, y, cv=cv, groups=groups,
+                         scoring=['accuracy', 'f1', 'roc_auc'])
+```
+
+For regression use task `regression` and a regressor; for clustering use `clustering` and a clustering estimator (`y` is None). These are usage examples, not completed experiments. Do not prefit preprocessing before cross-validation. Tree models can use `scale=False`. Outputs are sparse; an estimator requiring dense arrays needs a deliberate adapter.

@@ -1,0 +1,32 @@
+{
+  "input_rows": 79330,
+  "removed_known_zero_guest_rows": 167,
+  "removed_exact_duplicate_rows": 25889,
+  "retained_rows": 53274,
+  "exact_duplicates_remaining": 0,
+  "policy": "Normalize categories; remove known zero-guest rows; remove exact full-row duplicates before splitting. Retain ADR extremes and missing values. Group identical booking inputs across splits even when outcomes differ.",
+  "raw_sha256": "6796f5b9b2b9e7281662b29730fc2880f8e614107d0d14d09be2ede1a6e605a4",
+  "seed": 42,
+  "strategy": "grouped random split on booking-time source inputs",
+  "requested_fractions_of_groups": {
+    "train": 0.6000000000000001,
+    "validation": 0.2,
+    "test": 0.2
+  },
+  "actual_rows": {
+    "train": 31921,
+    "validation": 10650,
+    "test": 10703
+  },
+  "actual_groups": {
+    "test": 10042,
+    "train": 30123,
+    "validation": 10042
+  },
+  "training_cancel_rate": 0.2997713104226058,
+  "versions": {
+    "python": "3.12.14",
+    "pandas": "3.0.1",
+    "sklearn": "1.9.1"
+  }
+}
